@@ -3,16 +3,20 @@ var app = express();
 
 app.get('/', function (req, res) {
 
+  var command = 'phantomjs --disk-cache=false --web-security=no --ignore-ssl-errors=yes netsniff.js ' + req['query']['url'];
+  command += (req['query']['ua'] === 'sp') ? ' sp' : '';
+
   if (req['query']['callback'] === undefined) {
     var execSync = require('child_process').execSync;
-    var result = "" + execSync('phantomjs --disk-cache=false --web-security=no --ignore-ssl-errors=yes netsniff.js ' + req['query']['url']);
+    console.log(command);
+    var result = "" + execSync(command);
 
     res.type('application/json');
     res.send(result);
   } else {
     res.send('complete');
     var exec = require('child_process').exec, child;
-    child = exec('phantomjs --disk-cache=false --web-security=no --ignore-ssl-errors=yes netsniff.js ' + req['query']['url'],
+    child = exec(command,
       {maxBuffer: 400*1024},
       function (error, stdout, stderr) {
         if (error !== null) {
