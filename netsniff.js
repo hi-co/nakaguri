@@ -100,14 +100,12 @@ var page = require('webpage').create(),
 page.onInitialized = function() {
     page.evaluate(function(domContentLoadedMsg) {
         document.addEventListener('DOMContentLoaded', function() {
-            console.log("piyo");
             window.callPhantom('DOMContentLoaded');
         }, false);
     });
 };
 
 if (system.args.length === 1) {
-    console.log('Usage: netsniff.js <some URL>');
     phantom.exit(1);
 } else {
 
@@ -115,13 +113,11 @@ if (system.args.length === 1) {
     page.resources = [];
 
     page.onLoadStarted = function () {
-            console.log("start");
         page.startTime = new Date();
     };
-    
+
     page.onDOMContentLoaded = function () {
         page.startTime2 = new Date();
-      console.log('hoge');
     };
 
     page.onResourceRequested = function (req) {
@@ -142,15 +138,14 @@ if (system.args.length === 1) {
     };
 
     page.open(page.address, function (status) {
-      
-      
+
+
     page.evaluate(function(domContentLoadedMsg) {
         document.addEventListener('DOMContentLoaded', function() {
-            console.log("piyo");
             window.callPhantom('DOMContentLoaded');
         }, false);
     });
-      
+
         var har;
         if (status !== 'success') {
             console.log('FAIL to load the address');
